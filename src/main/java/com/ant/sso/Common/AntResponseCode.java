@@ -5,6 +5,7 @@ public enum  AntResponseCode {
     EXCEPTION_CODE(400,"请求异常"),
     ILLEGAL_PARAMETER(401,"请求参数异常"),
     EMPTY_EXCEPTION(402,"空异常"),
+    REDIS_EXCEPTION_CODE(403,"Redis操作异常"),
     USER_NOT_EXIST(600,"用户不存在"),
     LOGIN_PASSWORD_ERROR(601,"用户名或密码错误");
     private int value;

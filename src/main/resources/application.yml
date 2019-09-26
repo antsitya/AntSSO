@@ -59,7 +59,7 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 5000
-#    password: 223800antsitya
+    password: 223800antsitya
 #######################################mybatis-plus配置#######################################
 mybatis-plus:
   global-config:

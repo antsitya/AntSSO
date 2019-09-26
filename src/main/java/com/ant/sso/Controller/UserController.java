@@ -7,6 +7,7 @@ import com.ant.sso.Common.BaseController;
 import com.ant.sso.Entity.User;
 import com.ant.sso.Service.UserService;
 import com.ant.sso.Utils.Md5Util;
+import com.ant.sso.Utils.RedisUtils;
 import com.ant.sso.Utils.StringUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController extends BaseController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RedisUtils redisUtils;
 
     @RequestMapping(value = "/jwt/login")
     public AntResponse loginJWT(String key,String password){
@@ -44,6 +47,38 @@ public class UserController extends BaseController {
                 antResponse.setError(AntResponseCode.EXCEPTION_CODE);
                 log.error(AntConstant.LOGGER_PREFIX+" loginJWT ",e);
             }
+        }
+        return antResponse;
+    }
+
+    @RequestMapping(value = "/store/login")
+    public AntResponse loginStore(String key,String password){
+        AntResponse antResponse=new AntResponse();
+        if(StringUtils.isEmpty(key)||StringUtils.isEmpty(password)){
+            antResponse.setError(AntResponseCode.ILLEGAL_PARAMETER);
+            return antResponse;
+        }
+        try{
+            String pwdMD5=Md5Util.generateHash(password);
+            User user=userService.checkLoginOutPwd(key);
+            if(user==null){
+                antResponse.setError(AntResponseCode.USER_NOT_EXIST);
+            }else{
+                if(user.getPassword().equals(pwdMD5)){
+                    boolean redisRes=redisUtils.getAndSet("USER_"+user.getUserId(),user.toString());
+                    if(redisRes){
+                        antResponse.setSuccess(antResponse);
+                    }else{
+                        antResponse.setError(AntResponseCode.REDIS_EXCEPTION_CODE);
+                    }
+                }else {
+                    antResponse.setError(AntResponseCode.LOGIN_PASSWORD_ERROR);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            log.error(AntConstant.LOGGER_PREFIX+" loginStore ",e);
+            antResponse.setError(AntResponseCode.EXCEPTION_CODE);
         }
         return antResponse;
     }
