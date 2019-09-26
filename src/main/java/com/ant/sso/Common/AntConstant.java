@@ -1,6 +1,6 @@
 package com.ant.sso.Common;
 
-public class AntSysConstant {
+public class AntConstant {
     public static final String  LOGGER_PREFIX="error happen  on function ";
     public static final String REGEX_USERNAME = "^[a-zA-Z]\\w{5,20}$";//正则表达式验证用户名
     public static final String REGEX_MOBILE = "^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";//正则表达式验证手机号

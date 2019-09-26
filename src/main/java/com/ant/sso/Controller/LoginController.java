@@ -1,8 +1,8 @@
 package com.ant.sso.Controller;
 
+import com.ant.sso.Common.AntConstant;
 import com.ant.sso.Common.AntResponse;
 import com.ant.sso.Common.AntResponseCode;
-import com.ant.sso.Common.AntSysConstant;
 import com.ant.sso.Common.BaseController;
 import com.ant.sso.Entity.User;
 import com.ant.sso.Service.UserService;
@@ -23,7 +23,7 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/register/common")
     public String commonRegister(String nickName,String password,Integer type){
         if(StringUtils.isEmpty(nickName)||StringUtils.isEmpty(password)){
-            log.error(AntSysConstant.LOGGER_PREFIX+"commonRegister");
+            log.error(AntConstant.LOGGER_PREFIX+"commonRegister");
             return "empty error";
         }
         try{
@@ -45,7 +45,7 @@ public class LoginController extends BaseController {
             antResponse.setSuccess(users);
         }catch (Exception e){
             e.printStackTrace();
-            log.error(AntSysConstant.LOGGER_PREFIX+" searchAll ",e);
+            log.error(AntConstant.LOGGER_PREFIX+" searchAll ",e);
             antResponse.setError(AntResponseCode.EXCEPTION_CODE);
         }
         return antResponse;

@@ -1,8 +1,8 @@
 package com.ant.sso.Controller;
 
+import com.ant.sso.Common.AntConstant;
 import com.ant.sso.Common.AntResponse;
 import com.ant.sso.Common.AntResponseCode;
-import com.ant.sso.Common.AntSysConstant;
 import com.ant.sso.Common.BaseController;
 import com.ant.sso.Entity.User;
 import com.ant.sso.Service.UserService;
@@ -42,7 +42,7 @@ public class UserController extends BaseController {
             }catch (Exception e){
                 e.printStackTrace();
                 antResponse.setError(AntResponseCode.EXCEPTION_CODE);
-                log.error(AntSysConstant.LOGGER_PREFIX+" loginJWT ",e);
+                log.error(AntConstant.LOGGER_PREFIX+" loginJWT ",e);
             }
         }
         return antResponse;
