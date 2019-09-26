@@ -1,6 +1,6 @@
 package com.ant.sso.Utils;
 
-import com.ant.sso.Common.AntSysConstant;
+import com.ant.sso.Common.AntConstant;
 
 import java.util.regex.Pattern;
 
@@ -32,15 +32,15 @@ public class StringUtils {
     /**
      *  手机号校验
      */
-    public static boolean isCellphone(String str){return Pattern.matches(AntSysConstant.REGEX_MOBILE,str);}
+    public static boolean isCellphone(String str){return Pattern.matches(AntConstant.REGEX_MOBILE,str);}
 
     /**
      *  邮箱校验
      */
-    public static boolean isEmail(String str){return Pattern.matches(AntSysConstant.REGEX_EMAIL,str);}
+    public static boolean isEmail(String str){return Pattern.matches(AntConstant.REGEX_EMAIL,str);}
 
     /**
      *  用户名校验
      */
-    public static boolean isUserName(String str){return Pattern.matches(AntSysConstant.REGEX_USERNAME,str);}
+    public static boolean isUserName(String str){return Pattern.matches(AntConstant.REGEX_USERNAME,str);}
 }
