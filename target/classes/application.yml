@@ -1,0 +1,78 @@
+server:
+  port: 1008
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://139.9.66.121:3306/AntTechHome?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 223800bai
+#######################################����Druid���ӳ�����#######################################
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    # ����Դ����������
+#    # ��ʼ����С����С�����
+#    initialSize: 1
+#    minIdle: 3
+#    maxActive: 20
+#    # ���û�ȡ���ӵȴ���ʱ��ʱ��
+#    maxWait: 60000
+#    # ���ü����òŽ���һ�μ�⣬�����Ҫ�رյĿ������ӣ���λ�Ǻ���
+#    timeBetweenEvictionRunsMillis: 60000
+#    # ����һ�������ڳ�����С�����ʱ�䣬��λ�Ǻ���
+#    minEvictableIdleTimeMillis: 30000
+#    validationQuery: SELECT 1 FROM DUAL
+#    testWhileIdle: true
+#    testOnBorrow: false
+#    testOnReturn: false
+#    # ��PSCache������ָ��ÿ��������PSCache�Ĵ�С
+#    poolPreparedStatements: true
+#    maxPoolPreparedStatementPerConnectionSize: 20
+#    # ���ü��ͳ�����ص�filters��ȥ�����ؽ���sql�޷�ͳ�ƣ�'wall'���ڷ���ǽ
+#    filters: stat,wall,log4j
+#    # ͨ��connectProperties��������mergeSql���ܣ���SQL��¼
+#    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+#    # �ϲ����DruidDataSource�ļ������
+#    useGlobalDataSourceStat: true
+
+#######################################JPA����#######################################
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: none
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        naming:
+          #���ñ����޸��ࣨ��������ĸ��д��
+          physical-strategy: com.ant.sso.Config.data.MySQLUpperCaseStrategy
+    show-sql: true
+    database: mysql
+    repositories:
+      enabled: true
+    open-in-view: true
+#######################################Redis����#######################################
+  redis:
+    host: 139.9.66.121
+    port: 6379
+    database: 0
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 5000
+    password: 223800bai
+#######################################mybatis-plus����#######################################
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+      field-strategy: not_empty
+      #�շ��»���ת��
+      column-underline: true
+      #�߼�ɾ������
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      db-type: mysql
+    refresh: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
