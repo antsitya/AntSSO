@@ -1,15 +1,13 @@
 package com.ant.sso.Controller;
 
 import com.alibaba.fastjson.JSON;
-import com.ant.sso.Common.AntConstant;
-import com.ant.sso.Common.AntResponse;
-import com.ant.sso.Common.AntResponseCode;
-import com.ant.sso.Common.BaseController;
+import com.ant.sso.Common.*;
 import com.ant.sso.Entity.User;
 import com.ant.sso.Service.UserService;
 import com.ant.sso.Utils.Md5Utils;
 import com.ant.sso.Utils.RedisUtils;
 import com.ant.sso.Utils.StringUtils;
+import com.ant.sso.Utils.UUIDUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,9 +64,10 @@ public class UserController extends BaseController {
                 antResponse.setError(AntResponseCode.USER_NOT_EXIST);
             }else{
                 if(user.getPassword().equals(pwdMD5)){
-                    boolean redisRes=redisUtils.getAndSet("USER_"+user.getUserId(), JSON.toJSONString(user));
+                    String userKey="USER_"+ UUIDUtils.getUUID();
+                    boolean redisRes=redisUtils.getAndSet(userKey, JSON.toJSONString(user));
                     if(redisRes){
-                        antResponse.setSuccess(user);
+                        antResponse.setSuccess(AntMap.build().put("userKey",userKey).put("user",user));
                     }else{
                         antResponse.setError(AntResponseCode.REDIS_EXCEPTION_CODE);
                     }
