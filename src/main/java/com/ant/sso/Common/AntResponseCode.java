@@ -7,7 +7,8 @@ public enum  AntResponseCode {
     EMPTY_EXCEPTION(402,"空异常"),
     REDIS_EXCEPTION_CODE(403,"Redis操作异常"),
     USER_NOT_EXIST(600,"用户不存在"),
-    LOGIN_PASSWORD_ERROR(601,"用户名或密码错误");
+    LOGIN_PASSWORD_ERROR(601,"用户名或密码错误"),
+    USER_NOT_LOGIN(602,"用户未登录");
     private int value;
     private String msg;
     public int value(){return this.value;}

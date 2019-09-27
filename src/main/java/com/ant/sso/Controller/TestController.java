@@ -36,13 +36,9 @@ public class TestController extends BaseController {
     @RequestMapping(value = "/getRedisUser")
     public AntResponse getRedisUser(HttpServletRequest request){
         AntResponse antResponse=new AntResponse();
-        User user=checkUserAuthLogin(request);
-        //TODO 优化 checkUserAuthLogin方法中一旦用户未登录抛出异常
-        if(user==null){
-            antResponse.setError(AntResponseCode.USER_NOT_EXIST);
-        }else{
-            antResponse.setSuccess(user);
-        }
+//        User user=checkUserLogin(request);
+        User user=requireLogin(request);
+        antResponse.setSuccess(user);
         return antResponse;
     }
 }
