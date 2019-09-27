@@ -17,7 +17,7 @@ import java.util.HashMap;
  *  Druid连接池配置
  */
 
-//@Configuration
+@Configuration
 public class DruidConfig {
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource")
