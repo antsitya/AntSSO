@@ -1,12 +1,13 @@
 package com.ant.sso.Controller;
 
+import com.alibaba.fastjson.JSON;
 import com.ant.sso.Common.AntConstant;
 import com.ant.sso.Common.AntResponse;
 import com.ant.sso.Common.AntResponseCode;
 import com.ant.sso.Common.BaseController;
 import com.ant.sso.Entity.User;
 import com.ant.sso.Service.UserService;
-import com.ant.sso.Utils.Md5Util;
+import com.ant.sso.Utils.Md5Utils;
 import com.ant.sso.Utils.RedisUtils;
 import com.ant.sso.Utils.StringUtils;
 import lombok.extern.log4j.Log4j2;
@@ -31,7 +32,7 @@ public class UserController extends BaseController {
             antResponse.setError(AntResponseCode.ILLEGAL_PARAMETER);
         }else{
             try{
-                String passwordMD5= Md5Util.generateHash(password);
+                String passwordMD5= Md5Utils.generateHash(password);
                 User user=userService.checkLoginOutPwd(key);
                 if(user==null){
                     antResponse.setError(AntResponseCode.USER_NOT_EXIST);
@@ -59,15 +60,15 @@ public class UserController extends BaseController {
             return antResponse;
         }
         try{
-            String pwdMD5=Md5Util.generateHash(password);
+            String pwdMD5= Md5Utils.generateHash(password);
             User user=userService.checkLoginOutPwd(key);
             if(user==null){
                 antResponse.setError(AntResponseCode.USER_NOT_EXIST);
             }else{
                 if(user.getPassword().equals(pwdMD5)){
-                    boolean redisRes=redisUtils.getAndSet("USER_"+user.getUserId(),user.toString());
+                    boolean redisRes=redisUtils.getAndSet("USER_"+user.getUserId(), JSON.toJSONString(user));
                     if(redisRes){
-                        antResponse.setSuccess(antResponse);
+                        antResponse.setSuccess(user);
                     }else{
                         antResponse.setError(AntResponseCode.REDIS_EXCEPTION_CODE);
                     }

@@ -3,7 +3,7 @@ package com.ant.sso.Utils;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
-public class Md5Util {
+public class Md5Utils {
 
     /**
      *  hash运算md5生成hash值

@@ -6,7 +6,7 @@ import com.ant.sso.Common.AntResponseCode;
 import com.ant.sso.Common.BaseController;
 import com.ant.sso.Entity.User;
 import com.ant.sso.Service.UserService;
-import com.ant.sso.Utils.Md5Util;
+import com.ant.sso.Utils.Md5Utils;
 import com.ant.sso.Utils.StringUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class LoginController extends BaseController {
             return "empty error";
         }
         try{
-            String passwordHashValue= Md5Util.generateHash(password);
+            String passwordHashValue= Md5Utils.generateHash(password);
             User user=userService.register(nickName,passwordHashValue,type);
             return "OK:"+user.toString();
         }catch (Exception e){
