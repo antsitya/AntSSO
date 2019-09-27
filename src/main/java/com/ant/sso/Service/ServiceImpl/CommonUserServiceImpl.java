@@ -42,4 +42,10 @@ public class CommonUserServiceImpl implements UserService {
     public User checkLoginOutPwd(String key) {
         return userRepository.loginFind(key);
     }
+
+    @Override
+    public User findById(Long userId) {
+        return userRepository.queryById(userId);
+//        return userMapper.selectById(userId);
+    }
 }

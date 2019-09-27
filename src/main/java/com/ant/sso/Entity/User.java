@@ -1,5 +1,6 @@
 package com.ant.sso.Entity;
 
+import com.ant.sso.Common.BaseEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -12,7 +13,7 @@ import java.util.Date;
 @Entity
 @TableName(value = "User")//mybatis注解
 @Table(name = "User")//JPA注解
-public class User {
+public class User extends BaseEntity<User> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)

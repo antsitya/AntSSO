@@ -9,4 +9,5 @@ public interface UserService {
     List<User> allUsers();
     User checkUserLogin(String key,String password);
     User checkLoginOutPwd(String key);
+    User findById(Long userId);
 }
