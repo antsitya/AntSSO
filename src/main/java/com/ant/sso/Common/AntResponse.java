@@ -1,5 +1,6 @@
 package com.ant.sso.Common;
 
+import com.ant.sso.Utils.StringUtils;
 import lombok.Data;
 
 /**
@@ -19,6 +20,10 @@ public class AntResponse {
         this.RespCode=antResponseCode.value();
         this.RespMsg=antResponseCode.msg();
     }
+    public void setError(AntResponseCode antResponseCode,String exMsg){
+        this.RespCode=antResponseCode.value();
+        this.RespMsg= StringUtils.isEmpty(exMsg)?antResponseCode.msg():exMsg;
+    }
     public void setSuccess(Object respObject){
         this.RespCode=AntResponseCode.SUCCESS_CODE.value();
         this.RespObject=respObject;
@@ -31,5 +36,9 @@ public class AntResponse {
     public void setResp(AntException antException){
         this.RespCode=antException.getExCode();
         this.RespMsg=antException.getExMsg();
+    }
+    public void setResp(AntException antException,String exMsg){
+        this.RespCode=antException.getExCode();
+        this.RespMsg=exMsg;
     }
 }

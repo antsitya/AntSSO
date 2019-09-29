@@ -3,10 +3,14 @@ package com.ant.sso.Controller;
 import com.ant.sso.Common.AntResponse;
 import com.ant.sso.Common.AntResponseCode;
 import com.ant.sso.Common.BaseController;
+import com.ant.sso.DTO.LoginDTO;
 import com.ant.sso.Entity.User;
 import com.ant.sso.Service.UserService;
 import com.ant.sso.Utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,6 +54,14 @@ public class TestController extends BaseController {
         AntResponse antResponse=new AntResponse();
         User user=userService.findById(Long.valueOf(userId));
         antResponse.setSuccess(user);
+        return antResponse;
+    }
+
+    @RequestMapping(value = "/loginValid")
+    public AntResponse loginValid(@Validated LoginDTO loginDTO){
+        AntResponse antResponse=new AntResponse();
+//        if(bindingResult.hasErrors()) antResponse.setError(AntResponseCode.ILLEGAL_PARAMETER);
+
         return antResponse;
     }
 }
