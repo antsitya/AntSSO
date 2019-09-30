@@ -1,18 +1,26 @@
 package com.ant.sso.Utils;
 
+import com.ant.sso.Common.AntException;
 import com.ant.sso.Common.AntHttpResult;
 import com.ant.sso.Common.AntResponseCode;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.*;
 import java.util.*;
 
 /**
@@ -151,6 +159,54 @@ public class HttpUtils {
     }
 
     /**
+     *  多文件上传
+     */
+    public static AntHttpResult upload(String url, List<MultipartFile> multipartFiles, String fileParName, Map<String, Object> params, int timeout){
+        AntHttpResult antHttpResult=new AntHttpResult();
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String result;
+        params.put("upload_file_name",fileParName);
+        try {
+            HttpPost httpPost = new HttpPost(url);
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setCharset(java.nio.charset.Charset.forName("UTF-8"));
+            builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+            String fileName = null;
+            for(MultipartFile multipartFile:multipartFiles){
+                fileName = multipartFile.getOriginalFilename();
+                builder.addBinaryBody(fileParName, multipartFile.getInputStream(), ContentType.MULTIPART_FORM_DATA, fileName);// 文件流
+            }
+            ContentType contentType = ContentType.create(HTTP.PLAIN_TEXT_TYPE, HTTP.UTF_8);//解决中文乱码
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                if(entry.getValue() == null) continue;
+                builder.addTextBody(entry.getKey(), entry.getValue().toString(), contentType);// 类似浏览器表单提交，对应input的name和value
+            }
+            HttpEntity entity = builder.build();
+            httpPost.setEntity(entity);
+            HttpResponse response = httpClient.execute(httpPost);// 执行提交
+            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(timeout).setConnectionRequestTimeout(timeout).setSocketTimeout(timeout).build();// 设置连接超时时间
+            httpPost.setConfig(requestConfig);
+            HttpEntity responseEntity = response.getEntity();
+            antHttpResult.setCode(response.getStatusLine().getStatusCode());
+            if (responseEntity != null) {// 将响应内容转换为字符串
+                result = EntityUtils.toString(responseEntity, java.nio.charset.Charset.forName("UTF-8"));
+                antHttpResult.setRes(result);
+            }
+        } catch (Exception e) {
+            Writer w = new StringWriter();
+            e.printStackTrace(new PrintWriter(w));
+            throw new AntException(AntResponseCode.HTTP_UPLOAD_EXCEPTION);
+        } finally {
+            try {
+                httpClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return antHttpResult;
+    }
+
+    /**
      * Description: 封装请求头
      */
     public static CloseableHttpResponse packageHeader(Map<String, String> params, HttpRequestBase httpMethod) {
@@ -188,7 +244,6 @@ public class HttpUtils {
      * Description: 获得响应结果
      */
     public static AntHttpResult getHttpClientResult(CloseableHttpResponse httpResponse, CloseableHttpClient httpClient, HttpRequestBase httpMethod) throws Exception {
-
         httpResponse = httpClient.execute(httpMethod);// 执行请求
         if (httpResponse != null && httpResponse.getStatusLine() != null) {// 获取返回结果
             String content = "";
