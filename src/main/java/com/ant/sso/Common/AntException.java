@@ -24,6 +24,11 @@ public class AntException extends RuntimeException {
         this.exCode=antResponseCode.value();
         this.exMsg=antResponseCode.msg();
     }
+    public AntException(String exMsg){
+        super(exMsg);
+        this.exCode=AntResponseCode.EXCEPTION_CODE.value();
+        this.exMsg=exMsg;
+    }
     public AntException(AntResponseCode antResponseCode,String exMsg){
         super(exMsg);
         this.exCode=antResponseCode.value();
