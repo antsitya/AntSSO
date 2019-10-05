@@ -3,19 +3,22 @@ package com.ant.sso.Controller;
 import com.ant.sso.Common.AntResponse;
 import com.ant.sso.Common.AntResponseCode;
 import com.ant.sso.Common.BaseController;
+import com.ant.sso.Config.EmailConfig;
+import com.ant.sso.Config.SysConfigConstant;
 import com.ant.sso.DTO.LoginDTO;
+import com.ant.sso.Entity.SysConfig;
 import com.ant.sso.Entity.User;
+import com.ant.sso.Service.SysConfigService;
 import com.ant.sso.Service.UserService;
 import com.ant.sso.Utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/test")
@@ -24,6 +27,8 @@ public class TestController extends BaseController {
     private RedisUtils redisUtils;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SysConfigService sysConfigService;
 
     @RequestMapping(value = "/setRedis")
     public AntResponse setRedis(String key, String value){
@@ -64,4 +69,21 @@ public class TestController extends BaseController {
 
         return antResponse;
     }
+
+    @RequestMapping(value = "/sysConfig")
+    public AntResponse sysConfig(){
+        AntResponse antResponse=new AntResponse();
+        EmailConfig emailConfig=sysConfigConstant.getEmailConfig();
+        antResponse.setSuccess(emailConfig);
+        return antResponse;
+    }
+    @RequestMapping(value = "/test1")
+    public AntResponse test1(){
+        AntResponse antResponse=new AntResponse();
+        List<SysConfig> res=sysConfigService.getSysConfigsByGroup("email",(short)1);
+        antResponse.setSuccess(res);
+        return antResponse;
+    }
+    @Autowired
+    private SysConfigConstant sysConfigConstant;
 }

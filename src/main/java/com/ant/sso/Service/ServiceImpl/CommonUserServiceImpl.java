@@ -4,7 +4,6 @@ import com.ant.sso.Entity.User;
 import com.ant.sso.Mapper.UserMapper;
 import com.ant.sso.Repository.UserRepository;
 import com.ant.sso.Service.UserService;
-import com.ant.sso.Utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
