@@ -60,7 +60,16 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 5000
-    password: 223800antsitya
+    password: root
+#######################################邮件服务配置#######################################
+  mail:
+    default-encoding: UTF-8
+    host: smtp.163.com
+    protocol: smtp
+    username: antsitya@163.com
+    password: ant163authcode
+  thymeleaf:
+    cache: false #开发时关闭缓存
 #######################################mybatis-plus配置#######################################
 mybatis-plus:
   global-config:

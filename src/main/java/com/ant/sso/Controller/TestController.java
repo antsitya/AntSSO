@@ -6,11 +6,15 @@ import com.ant.sso.Common.BaseController;
 import com.ant.sso.Config.EmailConfig;
 import com.ant.sso.Config.SysConfigConstant;
 import com.ant.sso.DTO.LoginDTO;
+import com.ant.sso.Entity.Email;
 import com.ant.sso.Entity.SysConfig;
 import com.ant.sso.Entity.User;
+import com.ant.sso.Service.EmailService;
 import com.ant.sso.Service.SysConfigService;
 import com.ant.sso.Service.UserService;
+import com.ant.sso.Utils.EmailUtils;
 import com.ant.sso.Utils.RedisUtils;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +24,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@Log4j2
 @RestController
 @RequestMapping(value = "/api/test")
 public class TestController extends BaseController {
@@ -84,6 +89,26 @@ public class TestController extends BaseController {
         antResponse.setSuccess(res);
         return antResponse;
     }
+    @RequestMapping(value = "/testEmail")
+    public AntResponse testEmail(){
+        AntResponse antResponse=new AntResponse();
+        try{
+            List<Email> emails=emailService.findNotSend();
+            for(Email email:emails){
+                emailUtils.send(email);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            log.error("error happen on function testEmail ",e);
+            antResponse.setError(AntResponseCode.EXCEPTION_CODE);
+        }
+        return antResponse;
+    }
+
     @Autowired
     private SysConfigConstant sysConfigConstant;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private EmailUtils emailUtils;
 }
