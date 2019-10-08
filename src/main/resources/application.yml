@@ -60,7 +60,7 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 5000
-    password: root
+    password: 223800antsitya
 #######################################邮件服务配置#######################################
   mail:
     default-encoding: UTF-8

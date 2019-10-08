@@ -13,7 +13,7 @@ import org.thymeleaf.TemplateEngine;
 @Service
 public class EmailUtils {
 
-    public void send(Email email){
+    public void send(Email email)throws Exception{
         email.checkSend();
         if(StringUtils.isEmpty(email.getAttachments())) sendSimpleEmail(email);
         else sendAttachmentsEmail(email);
@@ -23,10 +23,11 @@ public class EmailUtils {
 
     }
 
-    private void sendSimpleEmail(Email email){
+    private void sendSimpleEmail(Email email)throws Exception{
+        String fromByte = new String(("智蚁联创 <" + sysConfigConstant.getEmailConfig().getUserName() + ">").getBytes("UTF-8"));
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();//创建简单邮件对象
         simpleMailMessage.setTo(email.getToAddress().split(","));
-        simpleMailMessage.setFrom(sysConfigConstant.getEmailConfig().getUserName());
+        simpleMailMessage.setFrom(fromByte);
         simpleMailMessage.setSubject(email.getSubject());
         simpleMailMessage.setText(email.getContent());
         if(!StringUtils.isEmpty(email.getCcTo())) simpleMailMessage.setCc(email.getCcTo().split(","));
