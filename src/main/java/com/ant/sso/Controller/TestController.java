@@ -1,5 +1,6 @@
 package com.ant.sso.Controller;
 
+import com.ant.sso.Annotation.Login;
 import com.ant.sso.Common.AntResponse;
 import com.ant.sso.Common.AntResponseCode;
 import com.ant.sso.Common.BaseController;
@@ -102,6 +103,21 @@ public class TestController extends BaseController {
             log.error("error happen on function testEmail ",e);
             antResponse.setError(AntResponseCode.EXCEPTION_CODE);
         }
+        return antResponse;
+    }
+
+    @Login
+    @RequestMapping(value = "/testAop")
+    public AntResponse testAop(){
+        AntResponse antResponse=new AntResponse();
+        antResponse.setSuccess("hello world!");
+        return antResponse;
+    }
+
+    @RequestMapping(value = "/testAop1")
+    public AntResponse testAop1(){
+        AntResponse antResponse=new AntResponse();
+        antResponse.setSuccess("hello world!");
         return antResponse;
     }
 
