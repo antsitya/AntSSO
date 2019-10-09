@@ -10,6 +10,6 @@ public class AntConstant {
     public static final String REGEX_URL = "http(s)?://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?";//正则表达式验证URL
     public static final String REGEX_IP_ADDR = "(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)";//正则表达式验证IP地址
     public static final Integer LOGIN_EXPIRE_TIME=1000*60*30;//登录超时时间
-    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";//http请求用户身份验证
-    private static final String DEFAULT_ENCODING = "UTF-8";//默认编码UTF-8
+    public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";//http请求用户身份验证
+    public static final String DEFAULT_ENCODING = "UTF-8";//默认编码UTF-8
 }

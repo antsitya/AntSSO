@@ -14,7 +14,9 @@ public enum  AntResponseCode {
     LOGIN_PASSWORD_ERROR(601,"用户名或密码错误"),
     USER_NOT_LOGIN(602,"用户未登录"),
     EMAIL_HAS_SEND(620,"邮件不可以重复发送（以发送过）"),
-    EMAIL_EMPTY_EXCEPTION(621,"邮件异常，邮件信息不完整");
+    EMAIL_EMPTY_EXCEPTION(621,"邮件异常，邮件信息不完整"),
+    EMAIL_EXCEPTION(622,"邮件发送异常")
+    ;
     private int value;
     private String msg;
     public int value(){return this.value;}
