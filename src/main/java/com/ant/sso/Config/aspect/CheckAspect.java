@@ -1,5 +1,6 @@
 package com.ant.sso.Config.aspect;
 
+import com.ant.sso.Common.AntException;
 import com.ant.sso.Common.AntResponse;
 import com.ant.sso.Common.AntResponseCode;
 import com.ant.sso.Common.Operator;
@@ -69,13 +70,36 @@ public class CheckAspect {
     }
 
     /**
-     *  操作符 in,!=null,
+     *  操作符
+     *  in ：参数在几个数之间如 age in 1,2,3 等价于 age==1||age==2||age==3;
+     *  not in : 参数不在几个数之间
+     *  not null：参数不为空;
+     *  != : 参数不为;
+     *  > ：参数大于;
+     *  < ：参数小于;
+     *  [ : 参数大于等于
+     *  ] ：参数小于等于
+     *  [] : 参数在两个数范围之间(闭区间) 如 age [] 19,25 等价于 age>=19&&age<=25
+     *  () : 参数在两个数范围之间(开区间) 如 age () 19,25 等价于 age>19&&age<25
+     *  ][ : 参数在闭区间之外
+     *  )( : 参数在开区间之外
      */
     private String resove(String val,Map<String,Object> paramMap){
-        String msg=null;
         Boolean isVailded=true;
+        Operator operator=getOperator(val);
+        if(operator==null) throw new AntException(AntResponseCode.CHECK_RULES_EXCEPTION);
         String[] vals=val.split(":");
-        if(val.contains(Operator.NOT_NULL.getValue())){
+        String msg=vals.length>1?vals[1]:operator.getErrMsg();
+        String[] checkParams=vals[0].split(operator.getValue());
+        String filedName=checkParams[0];
+        String checkValue=checkParams.length>1?checkParams[1]:null;
+        return !paramMap.containsKey(filedName)?msg:operator.getFun().apply(paramMap.get(filedName),checkValue)?null:msg;
+        /*if(paramMap.containsKey(filedName)){
+            isVailded=operator.getFun().apply(paramMap.get(filedName),checkValue);
+        }else{
+            isVailded=false;
+        }*/
+        /*if(val.contains(Operator.NOT_NULL.getValue())){
             msg=Operator.NOT_NULL.getErrMsg();
             String filedName=val.split(Operator.NOT_NULL.getValue())[0];
             if(paramMap.containsKey(filedName)){
@@ -83,9 +107,17 @@ public class CheckAspect {
             }else{
                 isVailded=false;
             }
+        }*/
+//        return isVailded?null:msg;
+    }
+
+    private Operator getOperator(String checkStr){
+        Operator[] operators=Operator.values();
+        for(Operator operator:operators){
+            if(checkStr.contains(operator.getValue()))
+                return operator;
         }
-        if(vals.length==2) msg=vals[1];
-        return isVailded?null:msg;
+        return null;
     }
 
 }

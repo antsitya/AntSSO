@@ -93,8 +93,8 @@ public class TestController extends BaseController {
     }
 
     @RequestMapping(value = "/test")
-    @Check(value = {"param1!=null:param1不可以为空"})
-    public AntResponse test(String param1){
+    @Check(value = {"param1 not null :param1不可以为空","tel not null :请填写手机号！"})
+    public AntResponse test(String param1,String tel){
         AntResponse antResponse=new AntResponse();
         antResponse.setSuccess("hello world!");
         return antResponse;
