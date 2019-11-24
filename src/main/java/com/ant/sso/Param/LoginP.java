@@ -1,11 +1,8 @@
-package com.ant.sso.DTO;
-
-import lombok.Data;
+package com.ant.sso.Param;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
-public class LoginDTO {
+public class LoginP {
     @NotBlank(message = "用户名不能为空")
     private String userName;
 

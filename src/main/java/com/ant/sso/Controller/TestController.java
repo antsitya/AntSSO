@@ -1,13 +1,13 @@
 package com.ant.sso.Controller;
 
 import com.ant.sso.Common.AntResponse;
-import com.ant.sso.Common.AntResponseCode;
 import com.ant.sso.Common.BaseController;
+import com.ant.sso.Common.annotation.Check;
 import com.ant.sso.Config.EmailConfig;
 import com.ant.sso.Config.SysConfigConstant;
-import com.ant.sso.DTO.LoginDTO;
 import com.ant.sso.Entity.SysConfig;
 import com.ant.sso.Entity.User;
+import com.ant.sso.Param.LoginP;
 import com.ant.sso.Service.SysConfigService;
 import com.ant.sso.Service.UserService;
 import com.ant.sso.Utils.RedisUtils;
@@ -63,7 +63,7 @@ public class TestController extends BaseController {
     }
 
     @RequestMapping(value = "/loginValid")
-    public AntResponse loginValid(@Validated LoginDTO loginDTO){
+    public AntResponse loginValid(@Validated LoginP loginDTO){
         AntResponse antResponse=new AntResponse();
 //        if(bindingResult.hasErrors()) antResponse.setError(AntResponseCode.ILLEGAL_PARAMETER);
 
@@ -82,6 +82,20 @@ public class TestController extends BaseController {
         AntResponse antResponse=new AntResponse();
         List<SysConfig> res=sysConfigService.getSysConfigsByGroup("email",(short)1);
         antResponse.setSuccess(res);
+        return antResponse;
+    }
+
+    @RequestMapping(value = "/test")
+    @Check(value = {"param1!=null:param1不可以为空"})
+    public AntResponse test(String param1){
+        AntResponse antResponse=new AntResponse();
+        antResponse.setSuccess("hello world!");
+        return antResponse;
+    }
+    @RequestMapping(value = "/test2")
+    public AntResponse test2(){
+        AntResponse antResponse=new AntResponse();
+        antResponse.setSuccess("just do it!");
         return antResponse;
     }
     @Autowired

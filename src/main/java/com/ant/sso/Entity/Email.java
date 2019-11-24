@@ -17,13 +17,14 @@ public class Email {
     @TableId(type = IdType.AUTO)
     @Column(name = "email_id")
     private Long emailId;
+
     @Column(name = "to_address")
-    private String toAddress;//接受邮者邮件的地址
+    private String toAddress;//接收邮者邮件的地址
     private short validate=0;//是否需要身份验证
     private String subject;//邮件主题
     private String content;//邮件文本内容
 //    private String[] attachFileName;//附件文件名
-    private short state;//邮件状态 0：待发送，1：发送成功 2：发送失败
+    private short state;//邮件状态 0：待发送，1：发送成功 2：发送失败  3:发送中
     private short type;//邮件类别
     private short weight;//邮件优先级
 }
