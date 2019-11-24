@@ -96,7 +96,12 @@ public class CheckAspect {
         String[] checkParams=vals[0].split(operator.getValue());
         String filedName=checkParams[0];
         String checkValue=checkParams.length>1?checkParams[1]:null;
-        return !paramMap.containsKey(filedName)?msg:operator.getFun().apply(paramMap.get(filedName),checkValue)?null:msg;
+        if(filedName.contains(".")){
+
+            return null;
+        }else{
+            return !paramMap.containsKey(filedName)?msg:operator.getFun().apply(paramMap.get(filedName),checkValue)?null:msg;
+        }
     }
 
     /**
