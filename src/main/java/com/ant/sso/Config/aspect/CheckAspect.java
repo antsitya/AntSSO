@@ -49,6 +49,9 @@ public class CheckAspect {
         return obj;
     }
 
+    /**
+     *  执行校验
+     */
     private String doCheck(ProceedingJoinPoint point) throws NoSuchMethodException {
         Class<?> targetClass=point.getTarget().getClass();//获取方法所在Controller类的字节码对象
         MethodSignature ms= (MethodSignature) point.getSignature();//获取方法签名
@@ -94,23 +97,11 @@ public class CheckAspect {
         String filedName=checkParams[0];
         String checkValue=checkParams.length>1?checkParams[1]:null;
         return !paramMap.containsKey(filedName)?msg:operator.getFun().apply(paramMap.get(filedName),checkValue)?null:msg;
-        /*if(paramMap.containsKey(filedName)){
-            isVailded=operator.getFun().apply(paramMap.get(filedName),checkValue);
-        }else{
-            isVailded=false;
-        }*/
-        /*if(val.contains(Operator.NOT_NULL.getValue())){
-            msg=Operator.NOT_NULL.getErrMsg();
-            String filedName=val.split(Operator.NOT_NULL.getValue())[0];
-            if(paramMap.containsKey(filedName)){
-                isVailded=Operator.NOT_NULL.getFun().apply(paramMap.get(filedName),null);
-            }else{
-                isVailded=false;
-            }
-        }*/
-//        return isVailded?null:msg;
     }
 
+    /**
+     *  获取校验规则操作符枚举类对象
+     */
     private Operator getOperator(String checkStr){
         Operator[] operators=Operator.values();
         for(Operator operator:operators){
