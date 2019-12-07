@@ -3,9 +3,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://139.9.66.121:3306/AntTechHome?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://192.168.31.69:3306/AntTechHome?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: root
-    password: 223800bai
+    password: 223800
 
 #######################################阿里Druid连接池配置#######################################
     type: com.alibaba.druid.pool.DruidDataSource
@@ -50,7 +50,7 @@ spring:
     open-in-view: true
 #######################################Redis配置#######################################
   redis:
-    host: 139.9.66.121
+    host: 192.167.31.69
     port: 6379
     database: 0
     jedis:
@@ -60,7 +60,7 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 5000
-    password: 223800antsitya
+    password: 223800bai
 #######################################邮件服务配置#######################################
   mail:
     default-encoding: UTF-8
